@@ -10,7 +10,7 @@ package edu.graf;
  *
  * @author danecek
  */
-public class Point { //extends Object {
+public class Point implements Comparable<Point> { //extends Object {
 
     static int numPoints = 0;
 
@@ -18,9 +18,9 @@ public class Point { //extends Object {
     private int y;
 
     int[] cislax = new int[10];
-    
-    { 
-        
+
+    {
+
     }
 
     {
@@ -80,13 +80,16 @@ public class Point { //extends Object {
             return false;
         }
         final Point other = (Point) obj;
-        if (this.getX() != other.getX()) {
-            return false;
-        }
-        if (this.getY() != other.getY()) {
-            return false;
-        }
-        return true;
+        return compareTo(other) == 0;
+
+//        
+//        if (this.getX() != other.getX()) {
+//            return false;
+//        }
+//        if (this.getY() != other.getY()) {
+//            return false;
+//        }
+//        return true;
     }
 
     public int getX() {
@@ -100,6 +103,14 @@ public class Point { //extends Object {
     @Override
     public String toString() {
         return "Point{" + "x=" + x + ", y=" + y + '}';
+    }
+
+    @Override
+    public int compareTo(Point o) {
+        if (x == o.x) {
+            return y - o.y;
+        }
+        return x - o.x;
     }
 
 }

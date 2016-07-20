@@ -8,6 +8,8 @@ package edu.cols;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 import java.util.Set;
 
 public class MySet implements Set<Integer> {
@@ -59,6 +61,9 @@ public class MySet implements Set<Integer> {
 
             @Override
             public Integer next() {
+                if (i >= size) {
+                    throw new NoSuchElementException();
+                }
                 return data[i++];
                 // throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
             }
@@ -81,6 +86,11 @@ public class MySet implements Set<Integer> {
     public boolean add(Integer e) {
         if (contains(e)) {
             return false;
+        }
+        if (size == data.length) {
+            Integer[] hd = new Integer[data.length * 2];
+            System.arraycopy(data, 0, hd, 0, size);
+            data = hd;
         }
         data[size++] = e;
         return true;
@@ -114,13 +124,23 @@ public class MySet implements Set<Integer> {
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        Arrays.fill(data, null);
+        size = 0;
+//        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
     public String toString() {
         return Arrays.toString(Arrays.copyOf(data, size));
 //        return super.toString(); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    Optional<String> x() {
+        if (true) {
+            return Optional.empty();
+        }
+        return Optional.of("xxxx");
+
     }
 
 }
