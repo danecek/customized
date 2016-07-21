@@ -37,7 +37,7 @@ public class MyStream<T> implements Stream<T> {
     public MyStream(Iterable<T> data) {
         this.data = data;
     }
-    
+
     Iterable<T> data;
 
     @Override
@@ -49,7 +49,7 @@ public class MyStream<T> implements Stream<T> {
     public <R> Stream<R> map(Function<? super T, ? extends R> mapper) {
         List<R> ad = new ArrayList<R>();
         for (T e : data) {
-          ad.add(mapper.apply(e));
+            ad.add(mapper.apply(e));
         }
         return new MyStream(ad);
         //    throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -122,10 +122,11 @@ public class MyStream<T> implements Stream<T> {
 
     @Override
     public void forEach(Consumer<? super T> action) {
-        for (T e : data)
+        for (T e : data) {
             action.accept(e);
-        
- //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        }
+
+        //       throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -145,7 +146,11 @@ public class MyStream<T> implements Stream<T> {
 
     @Override
     public T reduce(T identity, BinaryOperator<T> accumulator) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        T sum = identity;
+        for (T e : data) {
+            sum = accumulator.apply(sum, e);
+        }
+        return sum;
     }
 
     @Override
@@ -154,8 +159,14 @@ public class MyStream<T> implements Stream<T> {
     }
 
     @Override
-    public <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator, BinaryOperator<U> combiner) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public <U> U reduce(U identity, BiFunction<U, ? super T, U> accumulator,
+            BinaryOperator<U> combiner) {
+                U sum = identity;
+        for (T e : data) {
+            sum = accumulator.apply(sum, e);
+        }
+        return sum;
+      //  throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     @Override
@@ -247,5 +258,5 @@ public class MyStream<T> implements Stream<T> {
     public void close() {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
-    
+
 }
